@@ -19,8 +19,10 @@ async function loadClassStats() {
     res.data.forEach((item) => {
       const tr = document.createElement("tr");
 
-      // 如果及格率低于 60% 标红
-      const rateClass = item.pass_rate < 60 ? "pass-rate-low" : "";
+      // 【修复】强制转换为数字进行比较，并直接使用内联样式
+      const isLowRate = Number(item.pass_rate) < 60;
+      const rateColor = isLowRate ? "#ff4444" : "inherit";
+      const rateWeight = isLowRate ? "bold" : "normal";
 
       tr.innerHTML = `
         <td>${item.class_name}</td>
@@ -29,7 +31,7 @@ async function loadClassStats() {
         <td>${item.avg_score}</td>
         <td>${item.max_score}</td>
         <td>${item.min_score}</td>
-        <td class="${rateClass}">${item.pass_rate}%</td>
+        <td style="color: ${rateColor}; font-weight: ${rateWeight};">${item.pass_rate}%</td>
       `;
       classStatsBody.appendChild(tr);
     });
@@ -43,7 +45,6 @@ async function loadLists() {
   try {
     const res = await api("/scores/stats/lists");
 
-    // 渲染不合格名单
     if (res.fail.length === 0) {
       failList.innerHTML = `<p style="text-align:center; color:#888; padding:20px;">太棒了！没有不合格学生</p>`;
     } else {
@@ -53,13 +54,12 @@ async function loadLists() {
         div.className = "list-item";
         div.innerHTML = `
           <span>${student.name} <small style="color:#888;">(${student.class_name})</small></span>
-          <span>${student.subject}：<span class="fail-text">${student.score}</span></span>
+          <span>${student.subject}：<span style="color:#ff4444; font-weight:bold;">${student.score}</span></span>
         `;
         failList.appendChild(div);
       });
     }
 
-    // 渲染优秀名单
     if (res.excellent.length === 0) {
       excellentList.innerHTML = `<p style="text-align:center; color:#888; padding:20px;">暂无优秀学生</p>`;
     } else {
@@ -69,7 +69,7 @@ async function loadLists() {
         div.className = "list-item";
         div.innerHTML = `
           <span>${student.name} <small style="color:#888;">(${student.class_name})</small></span>
-          <span>${student.subject}：<span class="excellent-text">${student.score}</span></span>
+          <span>${student.subject}：<span style="color:#00cc66; font-weight:bold;">${student.score}</span></span>
         `;
         excellentList.appendChild(div);
       });
@@ -88,7 +88,6 @@ async function init() {
 
   document.getElementById("authBtn").addEventListener("click", () => logout());
 
-  // 同时加载两个模块的数据
   loadClassStats();
   loadLists();
 }
