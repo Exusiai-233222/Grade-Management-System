@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人中心 · 成绩管理系统</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="scores.html">
+        <span class="brand-mark"></span>
+        成绩管理系统
+      </a>
+      <!-- 【修复处】这里的链接改回了 scores.html 和 stats.html -->
+      <nav class="nav">
+        <a href="scores.html">成绩列表</a>
+        <a href="stats.html">统计分析</a>
+        <a href="profile.html" class="active">我的</a>
+      </nav>
+      <div class="user-chip">
+        <span class="user-name" id="navUser"></span>
+        <button class="btn btn-ghost btn-sm" id="authBtn" type="button">
+          退出
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="page-title">
+        <h1>个人中心</h1>
+        <p>查看个人信息，也可以在这里修改密码。</p>
+      </div>
+
+      <section class="card user-card">
+        <div class="user-meta">
+          <div class="avatar" id="avatar">?</div>
+          <div>
+            <h1 id="profileName">加载中...</h1>
+            <p id="profileEmail"></p>
+            <p id="profileJoined"></p>
+          </div>
+        </div>
+      </section>
+
+      <div class="two-col" style="margin-top: 20px">
+        <section class="card">
+          <h2><span class="dot"></span>修改密码</h2>
+          <div
+            class="form-error"
+            id="passwordError"
+            style="color: #ff4444; margin-bottom: 10px"
+          ></div>
+          <div
+            class="form-success"
+            id="passwordSuccess"
+            style="color: #00cc66; margin-bottom: 10px"
+          ></div>
+
+          <form id="passwordForm">
+            <div class="field">
+              <label>原密码</label>
+              <input
+                type="password"
+                id="oldPassword"
+                class="input"
+                placeholder="请输入当前密码"
+                required
+              />
+            </div>
+            <div class="field">
+              <label>新密码</label>
+              <input
+                type="password"
+                id="newPassword"
+                class="input"
+                placeholder="至少 6 位"
+                required
+              />
+            </div>
+            <div class="field">
+              <label>确认新密码</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                class="input"
+                placeholder="请再次输入新密码"
+                required
+              />
+            </div>
+            <button
+              class="btn btn-primary btn-block"
+              type="submit"
+              style="margin-top: 15px"
+            >
+              保存新密码
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="js/profile-page.js"></script>
+  </body>
+</html>
